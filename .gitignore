@@ -1,0 +1,12 @@
+/ftest
+/gmon.out
+/3dtest
+/vex
+/*.shape
+/cttf-*.tar.gz
+/*.ttf
+/*.otf
+/otfdbg
+/otf2ttf.sh
+/tmp*
+/*.o
