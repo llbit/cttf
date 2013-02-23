@@ -10,3 +10,4 @@
 /otf2ttf.sh
 /tmp*
 /*.o
+/libcttf.a
