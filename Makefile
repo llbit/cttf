@@ -1,10 +1,15 @@
 CC=gcc
 LD=gcc
 CFLAGS=-Wall -pedantic -std=c99 -g
-LDFLAGS=-lSDL -lGLU -lGL -g
 RM=rm -f
 
-all:	ftest 3dtest vex libcttf.a otfdbg
+ifdef __MINGW32__
+	LDFLAGS=-lmingw32 -lSDLmain -lSDL -mwindows -lGLU -lGL -g
+else
+	LDFLAGS=-lSDL -lGLU -lGL -g
+endif
+
+all:   ftest 3dtest vex libcttf.a otfdbg
 
 libcttf.a: ttf.o triangulate.o shape.o list.o bstree.o qsortv.o stack.o \
 	cttftext.o typeset.o treeset.o
