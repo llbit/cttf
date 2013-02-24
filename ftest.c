@@ -24,7 +24,6 @@
  * directly triangulates it.
  */
 #include <stdio.h>
-#include <err.h>
 #include <math.h>
 #include <stdbool.h>
 #include <wchar.h>
@@ -121,8 +120,10 @@ static void setup_video()
 	uint32_t	flags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_OPENGL;
 
 	screen = SDL_SetVideoMode(WINDOW_W, WINDOW_H, 0, flags);
-	if (!screen)
-		errx(1, "Failed to set video mode");
+	if (!screen) {
+		fprintf(stderr, "Failed to set video mode");
+		exit(1);
+	}
 
 	SDL_ShowCursor(SDL_ENABLE);
 
