@@ -4,7 +4,7 @@ CFLAGS=-Wall -pedantic -std=c99 -g
 RM=rm -f
 
 ifdef __MINGW32__
-	LDFLAGS=-lmingw32 -lSDLmain -lSDL -mwindows -lGLU -lGL -g
+	LDFLAGS=-lmingw32 -lSDLmain -lSDL -mwindows -lglu32 -lopengl32 -g
 else
 	LDFLAGS=-lSDL -lGLU -lGL -g
 endif
