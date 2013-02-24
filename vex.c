@@ -86,7 +86,7 @@ static float from_screen_x(int x);
 static float from_screen_y(int y);
 static void fit_view_to_shape(shape_t* shape);
 
-int main(int argc, const char** argv)
+int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 	atexit(SDL_Quit);
