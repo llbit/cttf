@@ -31,6 +31,7 @@ void shape_add_vec(shape_t* shape, float x, float y);
 void shape_add_seg(shape_t* shape, int n, int m);
 shape_t* load_shape(FILE* file);
 void write_shape(FILE* file, shape_t* shape);
+void render_shape(shape_t* shape);
 
 struct shape {
 	vector_t*	vec;
