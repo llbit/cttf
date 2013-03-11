@@ -274,12 +274,10 @@ void render()
 		float	y1 = vec->y - 0.006*zoom;
 		float	y2 = vec->y + 0.006*zoom;
 
-		glBegin(GL_QUADS);
 		glVertex3f(x1, y1, 0);
 		glVertex3f(x1, y2, 0);
 		glVertex3f(x2, y2, 0);
 		glVertex3f(x2, y1, 0);
-		glEnd();
 
 		p = p->succ;
 	} while (p != vecs);
