@@ -144,7 +144,6 @@ int main(int argc, char* argv[])
 		}
 
 		free_shape(&shape);
-	} else {
 	}
 
 	if (!out) out = stdout;

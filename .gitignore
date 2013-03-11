@@ -11,3 +11,4 @@
 /tmp*
 /*.o
 /libcttf.a
+*.swp
