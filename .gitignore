@@ -1,7 +1,10 @@
 /ftest
+/ftest.exe
 /gmon.out
 /3dtest
+/3dtest.ex
 /vex
+/vex.exe
 /*.shape
 /cttf-*.tar.gz
 /*.ttf
