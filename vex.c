@@ -86,7 +86,7 @@ static float from_screen_x(int x);
 static float from_screen_y(int y);
 static void fit_view_to_shape(shape_t* shape);
 
-int main(int argc, const char** argv)
+int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 	atexit(SDL_Quit);
@@ -144,7 +144,6 @@ int main(int argc, const char** argv)
 		}
 
 		free_shape(&shape);
-	} else {
 	}
 
 	if (!out) out = stdout;
@@ -275,12 +274,10 @@ void render()
 		float	y1 = vec->y - 0.006*zoom;
 		float	y2 = vec->y + 0.006*zoom;
 
-		glBegin(GL_QUADS);
 		glVertex3f(x1, y1, 0);
 		glVertex3f(x1, y2, 0);
 		glVertex3f(x2, y2, 0);
 		glVertex3f(x2, y1, 0);
-		glEnd();
 
 		p = p->succ;
 	} while (p != vecs);

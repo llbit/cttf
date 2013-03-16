@@ -1,13 +1,18 @@
 CC=gcc
 LD=gcc
 CFLAGS=-Wall -pedantic -std=c99 -g
-LDFLAGS=-lSDL -lGLU -lGL -g
 RM=rm -f
 
-all:	ftest 3dtest vex libcttf.a otfdbg
+ifdef __MINGW32__
+	LDFLAGS=-lmingw32 -lSDLmain -lSDL -mwindows -lglu32 -lopengl32 -g
+else
+	LDFLAGS=-lSDL -lGLU -lGL -g
+endif
+
+all:   ftest 3dtest vex libcttf.a otfdbg
 
 libcttf.a: ttf.o triangulate.o shape.o list.o bstree.o qsortv.o stack.o \
-	cttftext.o typeset.o treeset.o
+	cttftext.o typeset.o treeset.o render.o
 	ar rcs $@ $^
 
 ftest:	ftest.o shape.o ttf.o triangulate.o list.o bstree.o qsortv.o stack.o \
@@ -72,5 +77,8 @@ shape.o: shape.c shape.h
 	${CC} ${CFLAGS} -c $< -o $@
 
 typeset.o: typeset.c ttf.h
+	${CC} ${CFLAGS} -c $< -o $@
+
+render.o: render.c shape.h
 	${CC} ${CFLAGS} -c $< -o $@
 
