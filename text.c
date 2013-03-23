@@ -44,26 +44,46 @@ font_t* new_font(ttf_t* ttf, int ipl)
 	return obj;
 }
 
-/* Attempts to load a TrueTypeFont from a file with the
- * path given in name. Returns null on failure.
+/**
+ * Attempts to load a TrueTypeFont from a file with the
+ * given path.
+ *
+ * @param path
+ * @param ipl interpolation level
+ * @return null on failure.
  */
-font_t* load_font(const char* name, int ipl)
+font_t* load_font(const char* path, int ipl)
 {
 	FILE*	fp;
-	ttf_t*	ttf;
-	fp = fopen(name, "rb");
+	font_t*	font;
+	fp = fopen(path, "rb");
 	if (!fp) {
-		fprintf(stderr, "Could not find font \"%s\"\n", name);
+		fprintf(stderr, "Could not find font \"%s\"\n", path);
 		return NULL;
 	}
-	ttf = ttf_load(fp);
+	font = load_font_file(fp, ipl);
 	fclose(fp);
+	return font;
+}
+
+/**
+ * Attempts to load a TrueTypeFont from a file.
+ *
+ * @param fp file pointer
+ * @param ipl interpolation level
+ * @return null on failure.
+ */
+font_t* load_font_file(FILE* fp, int ipl)
+{
+	ttf_t*	ttf;
+
+	ttf = ttf_load(fp);
 	if (ttf) {
 		return new_font(ttf, ipl);
 	} else {
 		fprintf(stderr, "Error while loading "
-				"font file: \"%s\":\n%s\n",
-				name, ttf_strerror());
+				"font file: \n%s\n",
+				ttf_strerror());
 		return NULL;
 	}
 }

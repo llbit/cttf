@@ -20,6 +20,8 @@
 #ifndef CTTF_TEXT_H
 #define CTTF_TEXT_H
 
+#include <stdio.h>
+
 #include "ttf.h"
 #include "triangulate.h"
 #include "typeset.h"
@@ -36,6 +38,7 @@ struct font {
 // returns non-NULL on success
 font_t* new_font(ttf_t* ttf, int ipl);
 font_t* load_font(const char* name, int ipl);
+font_t* load_font_file(FILE* fp, int ipl);
 void free_font(font_t** font);
 
 // prepare a character for rendering

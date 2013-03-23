@@ -12,7 +12,7 @@ endif
 all:   ftest 3dtest vex libcttf.a otfdbg
 
 libcttf.a: ttf.o triangulate.o shape.o list.o bstree.o qsortv.o stack.o \
-	cttftext.o typeset.o treeset.o render.o
+	text.o typeset.o treeset.o render.o
 	ar rcs $@ $^
 
 ftest:	ftest.o shape.o ttf.o triangulate.o list.o bstree.o qsortv.o stack.o \
@@ -20,7 +20,7 @@ ftest:	ftest.o shape.o ttf.o triangulate.o list.o bstree.o qsortv.o stack.o \
 	${LD} -o $@ $^ ${LDFLAGS}
 
 3dtest:	3dtest.o shape.o ttf.o triangulate.o list.o bstree.o qsortv.o stack.o \
-	cttftext.o treeset.o
+	text.o treeset.o
 	${LD} -o $@ $^ ${LDFLAGS}
 
 vex:	vex.o shape.o list.o
@@ -49,7 +49,7 @@ ftest.o: ftest.c triangulate.h ttf.h
 vex.o: vex.c shape.h list.h vector.h
 	${CC} ${CFLAGS} -c $< -o $@
 
-cttftext.o: cttftext.c text.h ttf.h triangulate.h typeset.h
+text.o: text.c text.h ttf.h triangulate.h typeset.h
 	${CC} ${CFLAGS} -c $< -o $@
 
 stack.o: stack.c stack.h
