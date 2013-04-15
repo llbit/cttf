@@ -165,7 +165,7 @@ ttf_t* new_ttf()
 	obj->plsb = NULL;
 	obj->interpolation_level = 1;
 	obj->ppem = 12;
-	obj->resolution = 96;// Screen resolution DPI
+	obj->resolution = 96;/* Screen resolution DPI */
 
 	obj->idx2loc = NULL;
 	obj->hh = NULL;
@@ -333,7 +333,7 @@ int ttf_load_headers(FILE* file, ttf_t* ttf, const ttf_tbl_directory_t* td)
 		}
 	}
 
-	// Check that all required headers were found
+	/* Check that all required headers were found */
 	if (!ttf->cmap) {
 		ttf_err("'cmap' table is missing in font file");
 		return 1;
@@ -406,7 +406,7 @@ int ttf_load_cmap(FILE* file, ttf_t* ttf)
 	}
 	for (i = 0; i < cth.num_tables; i++) {
 		if (eth[i].platform_id == 3 && eth[i].encoding_id == 1) {
-			// Unicode BMP (UCS-2)
+			/* Unicode BMP (UCS-2) */
 			found_mapping = 1;
 			if (ttf_load_cmap_subtable(file, ttf, &eth[i]))
 				return 1;
@@ -435,7 +435,7 @@ int ttf_load_cmap_subtable(FILE* file, ttf_t* ttf, ttf_enctbl_header_t* eth)
 	}
 	format = TTF_ENDIAN_WORD(format);
 
-	// rewind
+	/* rewind */
 	if (-1 == fseek(file, eth->offset + ttf->cmap->offset, SEEK_SET)) {
 		ttf_err("Read error in file: %s", strerror(errno));
 		return 1;
@@ -525,7 +525,7 @@ int ttf_load_segmap4(FILE* file, ttf_t* ttf)
 	mf4h.id_range_offset = malloc(sizeof(uint16_t) * length);
 	fread(mf4h.id_range_offset, sizeof(uint16_t), length, file);
 
-	// allocate space for the table
+	/* allocate space for the table */
 	ttf->glyph_table = malloc(sizeof(uint32_t) * TTF_GLYPH_TBL_SIZE);
 	for (i = 0; i < mf4h.seg_count_2; i++) {
 		mf4h.end_count[i] = TTF_ENDIAN_WORD(mf4h.end_count[i]);

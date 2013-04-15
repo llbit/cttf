@@ -108,7 +108,7 @@ static void on_left_click(float x, float y);
 static void on_key_down(SDLKey key, int down);
 static void triangulate_shape(shape_t* shape);
 static void render_component(edge_t* edge);
-static void render_face(face_t* face);
+/*static void render_face(face_t* face);*/
 static void load_resources(const char* fn, const char* chr);
 static void free_resources();
 
@@ -143,12 +143,13 @@ static void setup_video()
 
 static void fit_view_to_shape(shape_t* shape)
 {
-	// calculate center coordinates
+	/* calculate center coordinates */
 	float xmin = FLT_MAX;
 	float xmax = FLT_MIN;
 	float ymin = FLT_MAX;
 	float ymax = FLT_MIN;
-	for (int i = 0; i < shape->nvec; ++i) {
+	int i;
+	for (i = 0; i < shape->nvec; ++i) {
 		vector_t v = shape->vec[i];
 		if (v.x < xmin)
 			xmin = v.x;
@@ -179,8 +180,8 @@ void load_resources(const char* fn, const char* chr)
 
 	ttf = ttf_load(fp);
 	if (ttf != NULL) {
-		fclose(fp);
 		wchar_t	wc;
+		fclose(fp);
 		if (chr)
 			mbtowc(&wc, chr, MB_CUR_MAX);
 		else
@@ -244,7 +245,8 @@ static void print_help()
 
 void parse_args(int argc, const char** argv, const char** font, const char** fn)
 {
-	for (int i = 1; i < argc; ++i) {
+	int i;
+	for (i = 1; i < argc; ++i) {
 		if (argv[i][0] == '-') {
 			if (!strcmp(argv[i], "-h")) {
 				print_help();
@@ -359,7 +361,7 @@ void render_edge(edge_t* e)
 	float	y1 = e->origin->vec.y;
 	float	y2 = e->twin->origin->vec.y;
 
-	// line
+	/* line */
 	glBegin(GL_LINES);
 	glVertex3f(x1, y1, 0);
 	glVertex3f(x2, y2, 0);
@@ -367,7 +369,7 @@ void render_edge(edge_t* e)
 
 
 	if (g_edge_dir) {
-		// figure out angle of rotation:
+		/* figure out angle of rotation: */
 		float	angle;
 		float	xd = x2-x1;
 		float	yd = y2-y1;
@@ -382,7 +384,7 @@ void render_edge(edge_t* e)
 		angle *= 180 / M_PI;
 
 
-		// arrow
+		/* arrow */
 		glPushMatrix();
 		glTranslatef((x1+x2)/2, (y1+y2)/2, 0);
 		glRotatef(angle, 0, 0, 1);
@@ -412,7 +414,7 @@ void render_component(edge_t* edge)
 	} while (p != h);
 }
 
-static void render_face(face_t* face)
+/*static void render_face(face_t* face)
 {
 	if (g_outer && face->outer_component)
 		render_component(face->outer_component);
@@ -424,10 +426,14 @@ static void render_face(face_t* face)
 			p = p->succ;
 		} while (p != face->inner_components);
 	}
-}
+}*/
 
 static void render()
 {
+	list_t*	p;
+	list_t*	h;
+	int i;
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -442,9 +448,6 @@ static void render()
 	glVertex3f(0, 0.5f, 0);
 	glVertex3f(1, 0.5f, 0);
 	glEnd();
-
-	list_t*	p;
-	list_t*	h;
 
 	pthread_mutex_lock(&mutex);
 
@@ -475,17 +478,23 @@ static void render()
 						edge_colors[findex%NCOLORS][2]);
 
 				render_component(p->data);
-				//render_face(p->data);
+				/*render_face(p->data);*/
 			}
 			findex += 1;
 			p = p->succ;
 		} while (p != h);
 	}
 
-	for (int i = 0; i < edge_list->nvert; ++i) {
+	for (i = 0; i < edge_list->nvert; ++i) {
 		vertex_t*	v = edge_list->vertices[i];
 
 		unsigned mode = GL_FILL;
+
+		float	x1;
+		float	x2;
+		float	y1;
+		float	y2;
+
 		switch (v->vtype) {
 			case START_VERTEX:
 				mode = GL_LINE;
@@ -507,13 +516,13 @@ static void render()
 				break;
 		}
 		glPolygonMode(GL_FRONT_AND_BACK, mode);
-		//if (i < dbg_step)
-			//glColor3f(0.8f, 0.8f, 0.8f);
+		/*if (i < dbg_step)
+			glColor3f(0.8f, 0.8f, 0.8f);*/
 
-		float	x1 = v->vec.x - 0.006*zoom;
-		float	x2 = v->vec.x + 0.006*zoom;
-		float	y1 = v->vec.y - 0.006*zoom;
-		float	y2 = v->vec.y + 0.006*zoom;
+		x1 = v->vec.x - 0.006*zoom;
+		x2 = v->vec.x + 0.006*zoom;
+		y1 = v->vec.y - 0.006*zoom;
+		y2 = v->vec.y + 0.006*zoom;
 
 		switch (v->vtype) {
 			case START_VERTEX:
@@ -552,19 +561,28 @@ static void render()
 	}
 
 	if (incident_edge) {
+		vertex_t*	origin;
+		vertex_t*	end;
+		float	x1;
+		float	y1;
+		float	x2;
+		float	y2;
+		float	angle;
+		float	xd;
+		float	yd;
+
 		glColor3f(0.2, 0.3, 0.6);
 		render_component(incident_edge);
 
-		vertex_t*	origin = incident_edge->origin;
-		vertex_t*	end = incident_edge->twin->origin;
-		float	x1 = origin->vec.x;
-		float	y1 = origin->vec.y;
-		float	x2 = end->vec.x;
-		float	y2 = end->vec.y;
-		// figure out angle of rotation:
-		float	angle;
-		float	xd = x2-x1;
-		float	yd = y2-y1;
+		origin = incident_edge->origin;
+		end = incident_edge->twin->origin;
+		x1 = origin->vec.x;
+		y1 = origin->vec.y;
+		x2 = end->vec.x;
+		y2 = end->vec.y;
+		/* figure out angle of rotation: */
+		xd = x2-x1;
+		yd = y2-y1;
 		if (x1 == x2) {
 			angle = (yd < 0) ? -M_PI_2 : M_PI_2;
 		} else {
@@ -576,7 +594,7 @@ static void render()
 		angle *= 180 / M_PI;
 
 
-		// arrow
+		/* arrow */
 		glColor3f(0.2, 0.5, 0.9);
 		glBegin(GL_LINES);
 		glVertex3f(x1, y1, 0);
@@ -660,8 +678,9 @@ static void print_closest_vertex(float fx, float fy)
 	float		d;
 	float		mind = 0.006*zoom;
 	vertex_t*	closest = NULL;
+	int		i;
 
-	for (int i = 0; i < edge_list->nvert; ++i) {
+	for (i = 0; i < edge_list->nvert; ++i) {
 		vertex_t*	v = edge_list->vertices[i];
 
 		float	dx = fx - v->vec.x;
@@ -687,8 +706,9 @@ static void on_left_click(float fx, float fy)
 	float		mind = 0.006*zoom;
 	vertex_t*	closest = NULL;
 	int		ind;
+	int		i;
 
-	for (int i = 0; i < edge_list->nvert; ++i) {
+	for (i = 0; i < edge_list->nvert; ++i) {
 		vertex_t*	v = edge_list->vertices[i];
 
 		float	dx = fx - v->vec.x;

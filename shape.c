@@ -64,7 +64,7 @@ void free_shape(shape_t** shape)
 
 void shape_add_vec(shape_t* shape, float x, float y)
 {
-	// assert consistency
+	/* assert consistency */
 	assert(shape->nvec <= shape->maxvec);
 
 	if (shape->nvec == shape->maxvec) {
@@ -79,7 +79,7 @@ void shape_add_vec(shape_t* shape, float x, float y)
 
 void shape_add_seg(shape_t* shape, int n, int m)
 {
-	// assert consistency
+	/* assert consistency */
 	assert(shape->nseg <= shape->maxseg);
 
 	if (shape->nseg == shape->maxseg) {
@@ -106,7 +106,7 @@ shape_t* load_shape(FILE* file)
 		if (!strcmp(buf, "v: ")) {
 			float	x;
 			float	y;
-			// this is a vector
+			/* this is a vector */
 			if (2 != fscanf(file, "%f, %f\n", &x, &y)) {
 				fprintf(stderr, "could not parse shape file\n");
 				free_shape(&shape);
@@ -117,7 +117,7 @@ shape_t* load_shape(FILE* file)
 		} else if (!strcmp(buf, "s: ")) {
 			int	n;
 			int	m;
-			// this is a segment
+			/* this is a segment */
 			if (2 != fscanf(file, "%d, %d\n", &n, &m)) {
 				fprintf(stderr, "could not parse shape file\n");
 				free_shape(&shape);
@@ -125,7 +125,7 @@ shape_t* load_shape(FILE* file)
 			}
 			shape_add_seg(shape, n, m);
 		} else {
-			// error!
+			/* error! */
 			fprintf(stderr, "unexpected character sequence in shape file: %3s\n", buf);
 			free_shape(&shape);
 			return NULL;

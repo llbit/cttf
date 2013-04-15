@@ -37,7 +37,7 @@ void* bstree_find_right(bstree_t* tree, void* v, comparator_t cmp);
 void bstree_find_all(bstree_t* tree, void* v, comparator_t cmp, list_t** list);
 unsigned bstree_size(bstree_t* tree);
 
-// TODO: make red-black tree
+/* TODO: make red-black tree */
 struct binary_search_tree {
 	bstree_t*	parent;
 	void*		value;

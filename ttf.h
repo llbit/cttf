@@ -29,13 +29,13 @@
 #include "vector.h"
 #include "shape.h"
 
-// forward declarations
+/* forward declarations */
 typedef struct ttf		ttf_t;
 typedef struct ttf_glyph_header	ttf_glyph_header_t;
 typedef struct ttf_glyph_data	ttf_glyph_data_t;
 typedef struct ttf_table_header	ttf_table_header_t;
 
-// begin API
+/* begin API */
 ttf_t* new_ttf();
 void free_ttf(ttf_t** obj);
 ttf_t* ttf_load(FILE* file);
@@ -58,12 +58,12 @@ void ttf_interpolate(
 		uint16_t**		endpoints,
 		float			scale);
 
-// get width of a glyph
+/* get width of a glyph */
 float ttf_char_width(ttf_t* ttfobj, uint16_t chr);
 
 float ttf_line_width(ttf_t* type, const char* line);
 
-// export a TTF character to a vector list
+/* export a TTF character to a vector list */
 shape_t* ttf_export_chr_shape(ttf_t* ttfobj, uint16_t chr);
 
 typedef enum ttf_markings {
@@ -102,7 +102,7 @@ typedef struct ttf_font_header
 
 } ttf_head_t;
 
-// unused?
+/* unused? */
 typedef struct ttf_vertex
 {
 	ttf_markings_t	mark;
@@ -141,9 +141,9 @@ typedef struct ttf_map_format0_header
 	uint8_t		glyph_id_array[256];
 } ttf_mapfmt0_header_t;
 
+/* TODO */
 /*typedef struct ttf_map_format2_header
 {
-	// TODO
 } ttf_mapfmt2_header_t;*/
 
 typedef struct ttf_map_format4_header
@@ -163,9 +163,9 @@ typedef struct ttf_map_format4_header
 	uint16_t*	glyph_id_array;
 } ttf_mapfmt4_header_t;
 
+/* TODO */
 /*typedef struct ttf_map_format6_header
 {
-	// TODO
 } ttf_mapfmt6_header_t;*/
 
 struct ttf_glyph_header
@@ -185,7 +185,7 @@ typedef struct ttf_simple_glyph_info
 	uint8_t*	flags;
 } ttf_simpglyphinfo_t;
 
-// unused?
+/* unused? */
 typedef struct ttf_horizontal_table_header
 {
 	uint32_t	version;

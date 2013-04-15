@@ -64,7 +64,8 @@ typedef enum vtype {
 	/* A regular vertex */
 	REGULAR_VERTEX,
 
-	UNCLASSIFIED_VERTEX,
+	/* Unclassified vertex */
+	UNCLASSIFIED_VERTEX
 } vtype_t;
 
 struct face {
